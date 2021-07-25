@@ -1,0 +1,48 @@
+<!--
+ * @Des:
+ * @Version:
+ * @Author: Ellen
+ * @Date: 2021-07-21 18:58:11
+ * @LastEditors: Ellen
+ * @LastEditTime: 2021-07-25 16:37:42
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tree</title>
+  </head>
+  <body>
+    <script type="module">
+      import data from "./data.js";
+      function toTree(array) {
+        let parent = array.filter((p) => p.pid === 0);
+        let children = array.filter((c) => c.pid !== 0);
+
+        console.log(parent);
+        dataToTree(parent, children);
+
+        function dataToTree(parent, children) {
+          parent.map((p) => {
+            children.map((c) => {
+              if (p.id === c.pid) {
+                let _children = JSON.parse(JSON.stringify(children));
+                _children = _children.filter((item) => item !== c);
+                dataToTree([c], _children);
+                if (p.children) {
+                  p.children.push(c);
+                } else {
+                  p.children = [c];
+                }
+              }
+            });
+          });
+        }
+      }
+
+      toTree(data);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!--
+ * @Des:
+ * @Version:
+ * @Author: Ellen
+ * @Date: 2021-07-21 18:58:11
+ * @LastEditors: Ellen
+ * @LastEditTime: 2021-07-25 12:23:23
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tree</title>
+  </head>
+  <body>
+    <script type="module">
+      import data from "./data.js";
+
+      function dataFormatTree(data) {
+        let parent = data.filter((p) => p.pid === 0),
+          children = data.filter((c) => c.pid !== 0);
+        dataTree(parent, children);
+        return parent;
+        function dataTree(parent, children) {
+          parent.map((p) => {
+            children.map((c, i) => {
+              if (c.pid === p.id) {
+                //说明找到父级了
+                // 处理递归了
+                //1 对数组进行操作引用类型先进行序列化
+                let _children = JSON.parse(JSON.stringify(children));
+                //2 删除本children因为他变成父级了，所以不参与下次的children循环
+                _children.splice(i, 1);
+                dataTree([c], _children);
+                if (p.children) {
+                  //判断children是否存在
+                  p.children.push(c);
+                } else {
+                  p.children = [c];
+                }
+              }
+            });
+          });
+        }
+      }
+      let treeData = dataFormatTree(data);
+      // console.log(treeData);
+    </script>
+  </body>
+</html>
