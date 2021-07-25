@@ -1,0 +1,91 @@
+<!--
+ * @Des:
+ * @Version:
+ * @Author: Ellen
+ * @Date: 2021-07-25 17:16:03
+ * @LastEditors: Ellen
+ * @LastEditTime: 2021-07-25 17:45:22
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>发布订阅</title>
+  </head>
+  <body>
+    <h1>发布订阅</h1>
+    <ul>
+      <li>一个observer的构造函数</li>
+      <li>on 监听行为的函数，off 移除行为的函数 ， emit 触发行为函数</li>
+      <li>observer 当调用对应函数时候就触发行为</li>
+    </ul>
+    <p>obs.on('a',handle1) obs.on('a',handle2) obs.on('b',handle2)</p>
+    <p>obs.off('a') obs.off('a',handle2)</p>
+    <p>obs.emit('a',handle1) obs.emit(a)</p>
+
+    <script>
+      class Observer {
+        constructor(name, action) {
+          this.name = name;
+          this.action = action;
+          this.message = {};
+        }
+
+        on(type, fn) {
+          if (this.message[type]) {
+            this.message[type] = [...this.message[type], fn];
+          } else {
+            this.message[type] = [fn];
+          }
+        }
+
+        off(type, fn) {
+          if (!fn) {
+            delete this.message[type];
+          } else {
+            this.message[type] = this.message[type].filter((m) => m !== fn);
+          }
+        }
+
+        emit(type, fn) {
+          if (!fn) {
+            this.message[type].forEach((item) => {
+              item();
+            });
+          } else {
+            const res = this.message[type].find((m) => m === fn);
+            res();
+          }
+        }
+      }
+
+      const zhangsan = new Observer("张三", "买书");
+      // obs.on('a',handle1)
+      zhangsan.on("caseA", handle1);
+      zhangsan.on("caseA", handle2);
+      zhangsan.on("caseB", handle3);
+      zhangsan.on("caseC", handle5);
+      zhangsan.on("caseD", handle4);
+
+      console.log(zhangsan);
+
+      function handle1() {
+        console.log("这是handle1");
+      }
+      function handle2() {
+        console.log("这是handle2");
+      }
+      function handle3() {
+        console.log("这是handle3");
+      }
+      function handle4() {
+        console.log("这是handle4");
+      }
+      function handle5() {
+        console.log("这是handle5");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!--
+ * @Des:
+ * @Version:
+ * @Author: Ellen
+ * @Date: 2021-07-25 16:39:30
+ * @LastEditors: Ellen
+ * @LastEditTime: 2021-07-25 16:46:49
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>singleTon</title>
+  </head>
+  <body>
+    <h1>单例模式</h1>
+    <ul>
+      <li>全局永远只有一个实例</li>
+      <li>这个实例永远不会被释放---闭包</li>
+    </ul>
+    <script>
+      const Person = (function () {
+        let instance = null;
+
+        class Person {
+          constructor(name, gender, hobby) {
+            this.name = name;
+            this.gender = gender;
+            this.hobby = hobby;
+          }
+
+          hello() {
+            console.log("hello Person");
+          }
+        }
+
+        return function (...arg) {
+          if (!instance) {
+            instance = new Person(...arg);
+          }
+          return instance;
+        };
+      })();
+
+      const p1 = new Person("jack", "man", "run");
+      const p2 = new Person("rose", "women", "draw");
+
+      console.log(p1);
+      console.log(p2);
+    </script>
+  </body>
+</html>

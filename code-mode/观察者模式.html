@@ -1,0 +1,89 @@
+<!--
+ * @Des:
+ * @Version:
+ * @Author: Ellen
+ * @Date: 2021-07-25 16:47:37
+ * @LastEditors: Ellen
+ * @LastEditTime: 2021-07-25 17:15:44
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>观察者模式</title>
+  </head>
+  <body>
+    <h1>观察者模式</h1>
+    <ul>
+      <li>观察者</li>
+      <li>被观察者</li>
+      <li>观察者->有自己标识，还有自己的行为</li>
+      <li>
+        被观察者->1.记录自己被谁观察，2.增删观察者，3.行为改变了，会触发被观察者的行为
+      </li>
+    </ul>
+
+    <script>
+      class Observer {
+        constructor(type, fn) {
+          this.type = type;
+          this.fn = fn;
+        }
+      }
+      const bzr = new Observer("班主任", (a) => {
+        console.log("班主任因为你" + a + "，叫你赶紧学习了");
+      });
+      const xz = new Observer("校长", (a) => {
+        console.log("校长因为你" + a + "，叫你好好学习！");
+      });
+      const zr = new Observer("级长", (a) => {
+        console.log("级长因为你" + a + "，问你是那个班的？");
+      });
+
+      //   console.log(bzr, xz, zr);
+
+      class Subject {
+        constructor(name, className, action) {
+          this.name = name;
+          this.className = className;
+          this.action = action;
+          this.observer = [];
+        }
+
+        // xiaoming.addObserver(bzr)
+        addObserver(obs) {
+          // 去重
+          this.observer = this.observer.filter((o) => o !== obs);
+          this.observer.push(obs);
+        }
+
+        delObserver(obs) {
+          this.observer = this.observer.filter((o) => o !== obs);
+        }
+
+        emitObserver(action) {
+          if (action !== this.action) {
+            this.observer.forEach((item) => {
+              item.fn(action);
+            });
+          }
+        }
+      }
+
+      const zhangsan = new Subject("小明", "1班", "看书");
+      zhangsan.addObserver(bzr);
+      zhangsan.addObserver(zr);
+      zhangsan.addObserver(xz);
+      console.table(zhangsan);
+      console.table(zhangsan.observer);
+      //   zhangsan.delObserver(bzr);
+
+      const xiaohong = new Subject("小红", "2班", "复习");
+      xiaohong.addObserver(bzr);
+      xiaohong.addObserver(zr);
+      xiaohong.addObserver(xz);
+    </script>
+  </body>
+</html>
