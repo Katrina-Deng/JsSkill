@@ -4,7 +4,7 @@
  * @Author: Ellen
  * @Date: 2021-07-21 19:26:35
  * @LastEditors: Ellen
- * @LastEditTime: 2021-07-21 21:17:38
+ * @LastEditTime: 2021-07-26 20:26:58
  */
 const data = [
   {
@@ -60,22 +60,6 @@ const data = [
     link: "/student/add",
     pid: 6,
     title: "添加学生",
-  },
-  {
-    id: 9,
-    name: "123",
-    path: "1233",
-    link: "/student/add",
-    pid: 8,
-    title: "123",
-  },
-  {
-    id: 10,
-    name: "123",
-    path: "1233",
-    link: "/student/add",
-    pid: 3,
-    title: "123333333",
   },
 ];
 
